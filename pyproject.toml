@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "proactivebench"
-version = "0.1.0"
+version = "0.1.1"
 description = "Benchmark utilities and environments for evaluating multimodal LLMs' proactiveness."
 readme = "README.md"
 requires-python = ">=3.12"
