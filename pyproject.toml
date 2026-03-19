@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=80"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "proactivebench"
+version = "0.1.0"
+description = "Benchmark utilities and environments for evaluating multimodal LLMs' proactiveness."
+readme = "README.md"
+requires-python = ">=3.12"
+authors = [{ name = "Thomas De Min" }]
+license = "MIT"
+license-files = ["LICENSE"]
+keywords = ["benchmark", "vision-language", "multimodal", "evaluation", "reasoning"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "jsonlines>=4.0.0",
+    "pillow>=12.1.1",
+    "qwen-vl-utils>=0.0.14",
+    "torch>=2.0.0",
+    "torchvision",
+]
+
+[project.urls]
+Homepage = "https://github.com/tdemin16/proactivebench"
+Repository = "https://github.com/tdemin16/proactivebench"
+Issues = "https://github.com/tdemin16/proactivebench/issues"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
