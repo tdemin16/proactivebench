@@ -45,7 +45,7 @@ These serve as a starting point for evaluating any model on ProactiveBench by lo
 ### Multiple-choice (MCQA)
 The provided example can be run via:
 ```bash
-python -m proactivebench.tests.mcqa
+python -m proactivebench.tests.mcqa --data-dir /path/to/ProactiveBench/test
 ```
 
 **Output:**
@@ -57,7 +57,7 @@ model acc: XX.X% - ps rate: X.X
 ### Open-ended generation (OEG)
 Similarly, the OEG example can be run via:
 ```bash
-python -m proactivebench.tests.oeg
+python -m proactivebench.tests.oeg --data-dir /path/to/ProactiveBench/test
 ```
 
 Note that the OEG test script assumes two GPUs: one for the model being evaluated and one for the judge.

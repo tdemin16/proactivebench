@@ -1,3 +1,4 @@
+import argparse
 import sys
 from pathlib import Path
 
@@ -29,7 +30,6 @@ except ModuleNotFoundError:
 
 
 MODEL = "llava-hf/llava-onevision-qwen2-7b-ov-hf"
-DATA_DIR = "/data/tdemin/datasets/ProactiveBench"
 DATASET = "IN-C"
 USE_HINTS = False
 
@@ -44,13 +44,21 @@ DATASETS = {
 }
 
 
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--data-dir", required=True, help="Path to the ProactiveBench data directory.")
+    return parser.parse_args()
+
+
 def main():
+    args = parse_args()
+
     model = LlavaOnevisionForConditionalGeneration.from_pretrained(
         MODEL, device_map="auto", dtype=torch.bfloat16, attn_implementation="sdpa"
     )
     processor = AutoProcessor.from_pretrained(MODEL)
 
-    dataset = load_proactivebench_dataset(DATA_DIR, DATASETS[DATASET])
+    dataset = load_proactivebench_dataset(args.data_dir, DATASETS[DATASET])
     Environment_class = get_environment(dataset=DATASETS[DATASET])
 
     acc = 0
@@ -58,7 +66,7 @@ def main():
     bar = tqdm(total=len(dataset), leave=False, dynamic_ncols=True)
     for sample_index, sample in enumerate(dataset):
         # create an environment for each sample
-        env = Environment_class(entry=sample, data_dir=DATA_DIR)
+        env = Environment_class(entry=sample, data_dir=args.data_dir)
 
         while not env.stop:
             # set hint=True to enable hints

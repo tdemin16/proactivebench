@@ -1,3 +1,4 @@
+import argparse
 import random
 import sys
 from pathlib import Path
@@ -34,7 +35,6 @@ except ModuleNotFoundError:
     from proactivebench.open_ended_gen import get_oeg_judge_messages, parse_judge_prediction
 
 MODEL = "llava-hf/llava-onevision-qwen2-7b-ov-hf"
-DATA_DIR = "/data/tdemin/datasets/ProactiveBench"
 DATASET = "IN-C"
 USE_HINTS = False
 
@@ -49,7 +49,15 @@ DATASETS = {
 }
 
 
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--data-dir", required=True, help="Path to the ProactiveBench data directory.")
+    return parser.parse_args()
+
+
 def main():
+    args = parse_args()
+
     model = LlavaOnevisionForConditionalGeneration.from_pretrained(
         MODEL, device_map="cuda:0", dtype=torch.bfloat16, attn_implementation="sdpa"
     )
@@ -60,7 +68,7 @@ def main():
     )
     judge_tokenizer = AutoTokenizer.from_pretrained("Qwen/Qwen3-8B")
 
-    dataset = list(load_proactivebench_dataset(DATA_DIR, DATASETS[DATASET]))
+    dataset = list(load_proactivebench_dataset(args.data_dir, DATASETS[DATASET]))
     random.seed(0)
     random.shuffle(dataset)
     dataset = dataset[:100]
@@ -72,7 +80,7 @@ def main():
     agg = 0
     bar = tqdm(total=len(dataset), leave=False, dynamic_ncols=True)
     for sample_index, sample in enumerate(dataset):
-        env = env_class(sample, resize_samples=False, data_dir=DATA_DIR)
+        env = env_class(sample, resize_samples=False, data_dir=args.data_dir)
         state = env.get_state(hint=False)
 
         if USE_HINTS:
