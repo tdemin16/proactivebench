@@ -99,6 +99,7 @@ while not env.stop:
         skip_special_tokens=True,
         clean_up_tokenization_spaces=True,
     )
+    env.evaluate_generated_answer(generated_answer)
 
 stats = env.get_statistics()
 print("correct prediction:", stats["correct_prediction"], "ps rate", stats["num_turns"] - 1)
