@@ -1,5 +1,6 @@
 <h1 align="center">
-ProactiveBench
+ProactiveBench<br>
+(ECCV26)
 </h1>
 
 <div align="center">
